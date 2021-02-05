@@ -42,16 +42,6 @@ public class HashTable {
         getBucket(key).remove(entry);
     }
 
-    private LinkedList<Entry> getOrCreateBucket(int key) {
-        var index = hash(key);
-        var bucket = entries[index];
-        if (bucket == null) {
-            entries[index] = new LinkedList<>();
-            return entries[index];
-        }
-        return bucket;
-    }
-
     private Entry getEntry(int key) {
         var bucket = getBucket(key);
         if (bucket != null) {
