@@ -1,9 +1,6 @@
 package hashtables;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -31,14 +28,19 @@ public class Main {
 //        System.out.println(set);
 
         // HashTable
-        HashTable table = new HashTable();
-        table.put(2, "A");
-        table.put(3, "B");
-        table.put(4, "C");
-        table.put(12, "A*");
-        table.remove(2);
-        System.out.println("Done");
-        System.out.println("Done");
+//        HashTable table = new HashTable();
+//        table.put(2, "A");
+//        table.put(3, "B");
+//        table.put(4, "C");
+//        table.put(12, "A*");
+//        table.remove(2);
+//        System.out.println("Done");
+//        System.out.println("Done");
+
+        // Hash Exercise
+        HashTableExercises exercises = new HashTableExercises();
+        int[] numbers = { 11, 15, 2, 7, 6};
+        System.out.println(Arrays.toString(exercises.twoSum(numbers, 8)));
 
     }
 }
