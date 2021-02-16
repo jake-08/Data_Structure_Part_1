@@ -1,8 +1,9 @@
 package binarytrees;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class BinaryTree {
+public class Tree {
     private class Node {
         private int value;
         private Node leftChild;
@@ -111,6 +112,21 @@ public class BinaryTree {
         return 1 + Math.max(height(root.leftChild), height(root.rightChild));
     }
 
+    // O(n) Min value for BinaryTree
+    public int min() {
+        return min(root);
+    }
+
+    private int min(Node root) {
+        if (isLeaf(root))
+            return root.value;
+
+        var left = min(root.leftChild);
+        var right = min(root.rightChild);
+
+        return Math.min(Math.min(left, right), root.value);
+    }
+
     // O(log n)
     public int BinarySearchTreeMin() {
         if (root == null) {
@@ -126,22 +142,7 @@ public class BinaryTree {
         return last.value;
     }
 
-    // O(n) Min value for BinaryTree
-    public int min() {
-        return min(root);
-    }
-
-    private int min(Node root) {
-        if (isLeaf(root))
-            return root.value;
-
-        var left = min(root.leftChild);
-        var right = min(root.rightChild);
-
-        return Math.max(Math.min(left, right), root.value);
-    }
-
-    public boolean equals(BinaryTree tree) {
+    public boolean equals(Tree tree) {
         if (tree == null)
             return false;
 
@@ -158,10 +159,6 @@ public class BinaryTree {
                     && equals(first.rightChild, second.rightChild);
 
         return false;
-    }
-
-    private boolean isLeaf(Node node) {
-        return node.leftChild == null & node.rightChild == null;
     }
 
     public boolean isBinarySearchTree() {
@@ -203,6 +200,122 @@ public class BinaryTree {
                 System.out.println(value);
         }
     }
+
+    public int size() {
+        return size(root);
+    }
+
+    private int size(Node root) {
+        if(root == null)
+            return 0;
+
+        if(isLeaf(root))
+            return 1;
+
+        return size(root.leftChild) + size(root.rightChild) + 1;
+    }
+
+    public int countLeaves() {
+        return countLeaves(root);
+    }
+
+    private int countLeaves(Node root) {
+        if(root == null)
+            return 0;
+
+        if(isLeaf(root))
+            return 1;
+
+        return countLeaves(root.leftChild) + countLeaves(root.rightChild);
+    }
+
+    private boolean isLeaf(Node node) {
+        return node.leftChild == null & node.rightChild == null;
+    }
+
+    public int binarySearchTreeMax() {
+        if(root == null) {
+            throw new IllegalStateException();
+        }
+
+        return binarySearchTreeMax(root);
+    }
+
+    private int binarySearchTreeMax(Node root) {
+        if(root.rightChild == null) {
+            return root.value;
+        }
+        return binarySearchTreeMax(root.rightChild);
+    }
+
+    public boolean contains(int value) {
+        return contains(root, value);
+    }
+
+    private boolean contains(Node root, int value) {
+        if (root == null) {
+            return false;
+        }
+        if (root.value == value) {
+            return true;
+        }
+        return contains(root.leftChild, value) || contains(root.rightChild, value);
+    }
+
+    public boolean areSibling(int first, int second) {
+        return areSibling(root, first, second);
+    }
+
+    private boolean areSibling(Node root, int first, int second) {
+        if (root == null)
+            return false;
+
+        var areSibiling = false;
+        if (root.leftChild != null && root.rightChild != null) {
+            areSibiling = (root.leftChild.value == first && root.rightChild.value == second) ||
+                    (root.rightChild.value == first && root.leftChild.value == second);
+        }
+
+        return areSibiling || areSibling(root.leftChild, first, second) || areSibling(root.rightChild, first, second);
+    }
+
+    public List<Integer> getAncestores(int value) {
+        var list = new ArrayList<Integer>();
+        getAncestors(root, value, list);
+        return list;
+    }
+
+    private boolean getAncestors(Node root, int value, List<Integer> list) {
+        if (root == null)
+            return false;
+
+        if (root.value == value)
+            return true;
+
+        if (getAncestors(root.leftChild, value, list) || getAncestors(root.rightChild, value, list)) {
+            list.add(root.value);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isBalanced() {
+        return isBalanced(root);
+    }
+
+    private boolean isBalanced(Node root) {
+        if (root == null)
+            return true;
+
+        var balanceFactor = height(root.leftChild) - height(root.rightChild);
+
+        return Math.abs(balanceFactor) <= 1 && isBalanced(root.leftChild) && isBalanced(root.rightChild);
+    }
+
+    public boolean isPerfect() {
+        return size() == (Math.pow(2, height() + 1) - 1);
+    }
+
 
 
 }
