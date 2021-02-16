@@ -109,5 +109,5 @@ public class AVLTree {
                 isBalanced(root.leftChild) &&
                 isBalanced(root.rightChild);
     }
-    
+
 }
