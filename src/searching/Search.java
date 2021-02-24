@@ -102,7 +102,7 @@ public class Search {
 
         int left = bound / 2;
         int right = Math.min(bound, array.length - 1);
-        
+
         return binarySearchRec(array, target, left, right);
     }
 }
